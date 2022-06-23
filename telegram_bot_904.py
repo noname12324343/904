@@ -13,6 +13,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 
 creds = ServiceAccountCredentials.from_json_keyfile_name("key.json", scope)
+# print(creds)
 
 client = gspread.authorize(creds)
 
@@ -69,12 +70,27 @@ def copiedtext(text,name, chat_id):
 
 def sendlink( link_id ,  chat_id):
     chat_id = str(chat_id)
-    send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage?chat_id={chat_id}&text=Nhấn để xem chi tiết\nhttps://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit#gid={link_id} &parse_mode=MarkDown"
+    #send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage?chat_id={chat_id}&text=Nhấn để xem chi tiết\nhttps://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit#gid={link_id}&parse_mode=MarkDown"
+    send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage"
+    body = {
+        "text":f"https://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit?fbclid=IwAR0OHJswzjt0hwGcSPf4jc1Fx1_Sv0zdaaDapy34YJDwYNkCbCY4qlwv5fo#gid={link_id}",
+        "parse_mode":"MarkDown",
+        "chat_id":f"{chat_id}",
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
     print(send_text)
-    response = requests.get(send_text)
+    import json 
+    # response = requests.get(send_text)
+    print(json.dumps(body))
+    resp = requests.post(send_text, headers=headers, data=json.dumps(body))
+    print(resp.status_code)
+    print(resp.text)
 
-async def deletedata(update: Update, context: CallbackContext):
-    await update.message.reply_text(f"Bạn đã mua {items} với giá bao nhiêu thế (Đơn vị kVND)?")
+# async def deletedata(update: Update, context: CallbackContext):
+#     await update.message.reply_text(f"Bạn đã mua {items} với giá bao nhiêu thế (Đơn vị kVND)?")
 
 async def handlmsg(update: Update, context: CallbackContext):
     global items,costs,count
