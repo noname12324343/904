@@ -9,11 +9,11 @@ from time import *
 from datetime import datetime
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import pandas as pd
 
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 
 creds = ServiceAccountCredentials.from_json_keyfile_name("key.json", scope)
-# print(creds)
 
 client = gspread.authorize(creds)
 
@@ -22,9 +22,6 @@ def opensheet(worksheet):
     return data
 
 chung = opensheet('Chung')
-
-# def getnewestmessage(data):
-
 
 ly = opensheet('Lý')
 
@@ -42,6 +39,17 @@ def send_telegram_msg(bot_msg, chat_id):
     chat_id = str(chat_id)
     send_text = "https://api.telegram.org/bot" + token_id + "/sendMessage?chat_id="+chat_id + "&parse_mode=MarkdownV2&text=" + bot_msg 
     response = requests.get(send_text)
+    return(response.text)
+
+def send_data(data, chat_id):
+    text = ''
+    text = text + 'STT'.ljust(15, " ")+ 'Thời gian'.ljust(35, " ")+ 'Tên vật dụng'.ljust(20, " ")+'Giá'.rjust(20, " ")+'\n'+'\n'
+    for i in range(1,len(data)):
+        text = text + str(i).ljust(15, " ")+ str(data[i][0]).ljust(30, " ")+  str(data[i][1]).ljust(20, " ")+ str(data[i][2]).rjust(25, " ")+'\n\n'
+    print(text)
+    send_telegram_msg(str(text),chat_id)
+    print(send_telegram_msg)
+
 
 def multisend_message(name,item,cost):
 
@@ -49,6 +57,13 @@ def multisend_message(name,item,cost):
     # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
     # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
     # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+
+def multisend_message1(name,sheet,row):
+
+    send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
 
 def updaterow(sheet, item, cost, datetime, row):
     sheet.update_cell(row,1, datetime)
@@ -60,37 +75,23 @@ COST = []
 AllowID =[2058798859]
 count = 0
 
-# def allow(id):
-
 def copiedtext(text,name, chat_id):
-    # https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage?chat_id=<id>&text=Hi! `Press me!`&parse_mode=MarkDown
     chat_id = str(chat_id)
     send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage?chat_id={chat_id}&text=Số tài khoản của {name} là: `{text}`&parse_mode=MarkDown"
     response = requests.get(send_text)
 
 def sendlink( link_id ,  chat_id):
     chat_id = str(chat_id)
-    #send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage?chat_id={chat_id}&text=Nhấn để xem chi tiết\nhttps://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit#gid={link_id}&parse_mode=MarkDown"
-    send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage"
-    body = {
-        "text":f"https://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit#gid={link_id}",
-        "parse_mode":"MarkDown",
-        "chat_id":f"{chat_id}",
-    }
-    headers = {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    }
+    send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage?chat_id={chat_id}&text=https://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit#gid=0&parse_mode=MarkDown"
     print(send_text)
-    import json 
-    # response = requests.get(send_text)
-    print(json.dumps(body))
-    resp = requests.post(send_text, headers=headers, data=json.dumps(body))
-    print(resp.status_code)
-    print(resp.text)
+    response = requests.get(send_text)
+    print(response.text)
 
-# async def deletedata(update: Update, context: CallbackContext):
-#     await update.message.reply_text(f"Bạn đã mua {items} với giá bao nhiêu thế (Đơn vị kVND)?")
+async def deletedata(update: Update, context: CallbackContext):
+    await update.message.reply_text("Bạn muốn xóa dòng nào thế?\n\n")
+    send_data(ly.get_all_values(), update.effective_user.id)
+    global count
+    count = -10
 
 async def handlmsg(update: Update, context: CallbackContext):
     global items,costs,count
@@ -124,7 +125,15 @@ async def handlmsg(update: Update, context: CallbackContext):
         # nên nhày đoạn append vô đây
         
         count = -1
-    
+
+    if count == -10:
+        data = ly.get_all_values()
+        row = update.message.text
+        ly.delete_rows(int(row)+1)
+        multisend_message1(update.effective_user.first_name,data,int(row)+1)
+
+        count = -1
+
     count += 1
 
 
@@ -146,10 +155,19 @@ async def help(update: Update, context: CallbackContext):
 /sum --> Xem tổng chi tiêu cả phòng
 
 /average --> Xem trung bình từng thành viên
+
+/deletedata --> Xóa dữ liệu
+
+/cancel --> Đưa bot về trạng thái mặc định
     """)
 
 async def sum(update: Update, context: CallbackContext):
     await update.message.reply_text(f'Tổng chi tiêu cả phòng tính tới bây giờ là : {chung.cell(6,2).value}000 VND')
+
+async def cancel(update: Update, context: CallbackContext):
+    global count
+    await update.message.reply_text(f'Đã đưa bot về trạng thái mặc định\nNhấn bất kì để khai báo')
+    count = 0
 
 async def average(update: Update, context: CallbackContext):
     await update.message.reply_text(f'Trung bình từng thành viên là : {chung.cell(7,2).value}000 VND')
@@ -171,23 +189,23 @@ async def queryHandler(update: Update, context: CallbackContext):
     query = update.callback_query.data
     await update.callback_query.answer()
 
-    # global ly0, duong0,dat0,tuan0,Ly1, Duong1,Dat1,Tuan1,Ly2, Duong2,Dat2,Tuan2
+    global count
 
     if "ly0" in query:
-        send_telegram_msg(f'Đóng góp của Lý bây giờ là: {chung.cell(2,2).value}000 VND\nNhấn vào để xem chi tiết', update.effective_chat.id)
-        sendlink('1952337604',update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Lý bây giờ là: {chung.cell(2,2).value}000 VND\n', update.effective_chat.id)
+        send_data(ly.get_all_values(), update.effective_user.id)
         
     if "duong0" in query:
-        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(3,2).value}000 VND\nNhấn vào để xem chi tiết', update.effective_chat.id)
-        sendlink('782770242',update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(3,2).value}000 VND\n', update.effective_chat.id)
+        send_data(duong.get_all_values(), update.effective_user.id)
 
     if "dat0" in query:
-        send_telegram_msg(f'Đóng góp của Đạt bây giờ là: {chung.cell(4,2).value}000 VND\nNhấn vào để xem chi tiết', update.effective_chat.id)
-        sendlink('1397725999',update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Đạt bây giờ là: {chung.cell(4,2).value}000 VND\n', update.effective_chat.id)
+        send_data(dat.get_all_values(), update.effective_user.id)
 
     if "tuan0" in query:
-        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(5,2).value}000 VND\nNhấn vào để xem chi tiết', update.effective_chat.id)
-        sendlink('929562115',update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(5,2).value}000 VND\n', update.effective_chat.id)
+        send_data(tuan.get_all_values(), update.effective_user.id)
 
     if "Ly1" in query:
         copiedtext('04301690888', 'Lý',update.effective_chat.id)
@@ -222,12 +240,6 @@ async def queryHandler(update: Update, context: CallbackContext):
         send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
         sendlink('0',update.effective_chat.id)
 
-
-
-
-
-
-
 app = ApplicationBuilder().token("5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE").build()
 
 app.add_handler(CommandHandler("start", startCommand))
@@ -244,11 +256,12 @@ app.add_handler(CommandHandler("average", average))
 
 app.add_handler(CommandHandler("balance", balance))
 
-app.add_handler(MessageHandler(filters.TEXT, handlmsg))
+app.add_handler(CommandHandler("deletedata", deletedata))
 
-# app.add_handler(MessageHandler(filters.TEXT, messageHandler))
+app.add_handler(CommandHandler("cancel", cancel))
+
+app.add_handler(MessageHandler(filters.TEXT, handlmsg))
 
 app.add_handler(CallbackQueryHandler(queryHandler))
 
 app.run_polling()
-# app.idle()
