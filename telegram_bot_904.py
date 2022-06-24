@@ -39,9 +39,9 @@ def send_telegram_msg(bot_msg, chat_id):
 
 def send_data(data, chat_id):
     text = ''
-    text = text + 'STT'.ljust(15, " ")+ 'Thời gian'.ljust(35, " ")+ 'Tên vật dụng'.ljust(20, " ")+'Giá'.rjust(20, " ")+'\n'+'\n'
+    text = text + 'STT'.ljust(8, " ")+ 'Thời gian'.ljust(15, " ")+ 'Tên vật dụng'.ljust(20, " ")+'Giá'.rjust(10, " ")+'\n'+'\n'
     for i in range(1,len(data)):
-        text = text + str(i).ljust(15, " ")+ str(data[i][0]).ljust(30, " ")+  str(data[i][1]).ljust(20, " ")+ str(data[i][2]).rjust(25, " ")+'\n\n'
+        text = text + str(i).ljust(8, " ")+ str(data[i][0]).ljust(15, " ")[9:19]+  str(data[i][1]).rjust(20, " ")+ str(data[i][2]).rjust(18, " ")+'\n\n'
     print(text)
     send_telegram_msg(str(text),chat_id)
     print(send_telegram_msg)
