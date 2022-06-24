@@ -1,11 +1,15 @@
+from ast import parse
+from cmath import cos
+from re import I
+from tokenize import ContStr
 import requests
 from telegram.ext import *
 from telegram import *
 from time import *
-from datetime import datetime
+from datetime import *
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from datetime import *
+import pandas as pd
 
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 
@@ -31,7 +35,7 @@ tuan = opensheet('Tuấn')
 
 def send_telegram_msg(bot_msg, chat_id):
 
-    token_id = "5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE"
+    token_id = "5522327707:AAFJjdtZeLb_hYCdyk4Rn7TjtGOv3Pm-SPA"
     chat_id = str(chat_id)
     send_text = "https://api.telegram.org/bot" + token_id + "/sendMessage?chat_id="+chat_id + "&parse_mode=MarkdownV2&text=" + bot_msg 
     response = requests.get(send_text)
@@ -73,12 +77,12 @@ count = 0
 
 def copiedtext(text,name, chat_id):
     chat_id = str(chat_id)
-    send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage?chat_id={chat_id}&text=Số tài khoản của {name} là: `{text}`&parse_mode=MarkDown"
+    send_text = f"https://api.telegram.org/bot5522327707:AAFJjdtZeLb_hYCdyk4Rn7TjtGOv3Pm-SPA/sendMessage?chat_id={chat_id}&text=Số tài khoản của {name} là: `{text}`&parse_mode=MarkDown"
     response = requests.get(send_text)
 
 def sendlink( link_id ,  chat_id):
     chat_id = str(chat_id)
-    send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage?chat_id={chat_id}&text=https://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit#gid=0&parse_mode=MarkDown"
+    send_text = f"https://api.telegram.org/bot5522327707:AAFJjdtZeLb_hYCdyk4Rn7TjtGOv3Pm-SPA/sendMessage?chat_id={chat_id}&text=https://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit#gid=0&parse_mode=MarkDown"
     print(send_text)
     response = requests.get(send_text)
     print(response.text)
@@ -102,7 +106,8 @@ async def handlmsg(update: Update, context: CallbackContext):
 
     if count == 2:
         costs = update.message.text
-        list= [datetime.now().strftime("%H:%M:%S %d/%m/%Y"), items, costs]
+        hanoi_tz = timezone(timedelta(hours=7))
+        list= [datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y"), items, costs]
         id = update.effective_user.id
         if id == 2058798859:
             ly.append_row(list, value_input_option='USER_ENTERED')
@@ -236,7 +241,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
         sendlink('0',update.effective_chat.id)
 
-app = ApplicationBuilder().token("5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE").build()
+app = ApplicationBuilder().token("5522327707:AAFJjdtZeLb_hYCdyk4Rn7TjtGOv3Pm-SPA").build()
 
 app.add_handler(CommandHandler("start", startCommand))
 
