@@ -73,7 +73,7 @@ def sendlink( link_id ,  chat_id):
     #send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage?chat_id={chat_id}&text=Nhấn để xem chi tiết\nhttps://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit#gid={link_id}&parse_mode=MarkDown"
     send_text = f"https://api.telegram.org/bot5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE/sendMessage"
     body = {
-        "text":f"https://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit?fbclid=IwAR0OHJswzjt0hwGcSPf4jc1Fx1_Sv0zdaaDapy34YJDwYNkCbCY4qlwv5fo#gid={link_id}",
+        "text":f"https://docs.google.com/spreadsheets/d/1OAHQOnYpSZh_rgt-S95T1S6KKPVkJ4C7-W-ESR0oT-U/edit#gid={link_id}",
         "parse_mode":"MarkDown",
         "chat_id":f"{chat_id}",
     }
@@ -174,19 +174,19 @@ async def queryHandler(update: Update, context: CallbackContext):
     # global ly0, duong0,dat0,tuan0,Ly1, Duong1,Dat1,Tuan1,Ly2, Duong2,Dat2,Tuan2
 
     if "ly0" in query:
-        send_telegram_msg(f'Đóng góp của Lý bây giờ là: {chung.cell(2,2).value}000 VND', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Lý bây giờ là: {chung.cell(2,2).value}000 VND\nNhấn vào để xem chi tiết', update.effective_chat.id)
         sendlink('1952337604',update.effective_chat.id)
         
     if "duong0" in query:
-        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(3,2).value}000 VND', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(3,2).value}000 VND\nNhấn vào để xem chi tiết', update.effective_chat.id)
         sendlink('782770242',update.effective_chat.id)
 
     if "dat0" in query:
-        send_telegram_msg(f'Đóng góp của Đạt bây giờ là: {chung.cell(4,2).value}000 VND', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Đạt bây giờ là: {chung.cell(4,2).value}000 VND\nNhấn vào để xem chi tiết', update.effective_chat.id)
         sendlink('1397725999',update.effective_chat.id)
 
     if "tuan0" in query:
-        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(5,2).value}000 VND', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(5,2).value}000 VND\nNhấn vào để xem chi tiết', update.effective_chat.id)
         sendlink('929562115',update.effective_chat.id)
 
     if "Ly1" in query:
@@ -207,20 +207,20 @@ async def queryHandler(update: Update, context: CallbackContext):
         send_telegram_msg('Ngân hàng: Nam Á', update.effective_chat.id)
 
     if "Ly2" in query:
-        send_telegram_msg(f"Số dư của Lý bây giờ là: {str(chung.cell(2,3).value).replace('-',' âm ')}000 VND", update.effective_chat.id)
-        sendlink('1952337604',update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Lý bây giờ là: {str(chung.cell(2,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        sendlink('0',update.effective_chat.id)
     
     if "Duong2" in query:
-        send_telegram_msg(f"Số dư của Dương bây giờ là: {str(chung.cell(3,3).value).replace('-',' âm ')}000 VND", update.effective_chat.id)
-        sendlink('1952337604',update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Dương bây giờ là: {str(chung.cell(3,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        sendlink('0',update.effective_chat.id)
 
     if "Dat2" in query:
-        send_telegram_msg(f"Số dư của Đạt bây giờ là: {str(chung.cell(4,3).value).replace('-',' âm ')}000 VND", update.effective_chat.id)
-        sendlink('1952337604',update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Đạt bây giờ là: {str(chung.cell(4,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        sendlink('0',update.effective_chat.id)
 
     if "Tuan2" in query:
-        send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND", update.effective_chat.id)
-        sendlink('1952337604',update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        sendlink('0',update.effective_chat.id)
 
 
 
