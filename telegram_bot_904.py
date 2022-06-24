@@ -1,7 +1,3 @@
-from ast import parse
-from cmath import cos
-from re import I
-from tokenize import ContStr
 import requests
 from telegram.ext import *
 from telegram import *
@@ -9,7 +5,7 @@ from time import *
 from datetime import datetime
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import pandas as pd
+from datetime import *
 
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 
@@ -52,18 +48,18 @@ def send_data(data, chat_id):
 
 
 def multisend_message(name,item,cost):
-
-    send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    hanoi_tz = timezone(timedelta(hours=7))
+    send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
 
 def multisend_message1(name,sheet,row):
-
-    send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now().strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    hanoi_tz = timezone(timedelta(hours=7))
+    send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
 
 def updaterow(sheet, item, cost, datetime, row):
     sheet.update_cell(row,1, datetime)
