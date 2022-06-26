@@ -50,15 +50,15 @@ def send_data(data, chat_id):
 def multisend_message(name,item,cost):
     hanoi_tz = timezone(timedelta(hours=7))
     send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 5579622467)
+    send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 5448207142)
     # send_telegram_msg(f'{name} đã mua {item} với giá {cost}000 VND vào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
 
 def multisend_message1(name,sheet,row):
     hanoi_tz = timezone(timedelta(hours=7))
     send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
-    # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
+    send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 5579622467)
+    send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 5448207142)
     # send_telegram_msg(f'{name} đã xóa data :\n"Mua: {str(sheet[int(row)-1][1])} \nGiá {str(sheet[int(row)-1][2])}000 VND\nThời gian: {str(sheet[int(row)-1][0])}" \nvào lúc {datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y")}', 2058798859)
 
 def updaterow(sheet, item, cost, datetime, row):
@@ -108,13 +108,13 @@ async def handlmsg(update: Update, context: CallbackContext):
         if id == 2058798859:
             ly.append_row(list, value_input_option='USER_ENTERED')
             multisend_message(update.effective_user.first_name,items,costs)
-        elif id == '2058798851':
+        elif id == 5579622467:
             duong.append_row(list, value_input_option='USER_ENTERED')
             multisend_message(update.effective_user.first_name,items,costs)
         elif id == '2058798852':
             dat.append_row(list, value_input_option='USER_ENTERED')
             multisend_message(update.effective_user.first_name,items,costs)
-        elif id == '2058798851':
+        elif id == 5448207142:
             tuan.append_row(list, value_input_option='USER_ENTERED')
             multisend_message(update.effective_user.first_name,items,costs)
         else:
