@@ -85,6 +85,18 @@ def sendlink( link_id ,  chat_id):
 
 async def deletedata(update: Update, context: CallbackContext):
     await update.message.reply_text("Bạn muốn xóa dòng nào thế?\n\n")
+    id = update.effective_user.id
+    if id == 2058798859:
+        send_data(ly.get_all_values(), update.effective_user.id)
+    elif id == 5579622467:
+        send_data(duong.get_all_values(), update.effective_user.id)
+    elif id == '2058798852':
+        dat.append_row(list, value_input_option='USER_ENTERED')
+    elif id == 5448207142:
+        send_data(tuan.get_all_values(), update.effective_user.id)
+    else:
+        await update.message.reply_text(f"{update.effective_user.first_name} ! Bạn không được quyền dùng bot này")
+
     send_data(ly.get_all_values(), update.effective_user.id)
     global count
     count = -10
@@ -124,10 +136,31 @@ async def handlmsg(update: Update, context: CallbackContext):
         count = -1
 
     if count == -10:
-        data = ly.get_all_values()
-        row = update.message.text
-        ly.delete_rows(int(row)+1)
-        multisend_message1(update.effective_user.first_name,data,int(row)+1)
+        id = update.effective_user.id
+        if id == 2058798859:
+            data = ly.get_all_values()
+            row = update.message.text
+            ly.delete_rows(int(row)+1)
+            multisend_message1(update.effective_user.first_name,data,int(row)+1)
+        elif id == 5579622467:
+            data = duong.get_all_values()
+            row = update.message.text
+            duong.delete_rows(int(row)+1)
+            multisend_message1(update.effective_user.first_name,data,int(row)+1)
+        elif id == '2058798852':
+            dat.append_row(list, value_input_option='USER_ENTERED')
+            multisend_message(update.effective_user.first_name,items,costs)
+        elif id == 5448207142:
+            data = tuan.get_all_values()
+            row = update.message.text
+            tuan.delete_rows(int(row)+1)
+            multisend_message1(update.effective_user.first_name,data,int(row)+1)
+        else:
+            await update.message.reply_text(f"{update.effective_user.first_name} ! Bạn không được quyền dùng bot này")
+        # data = ly.get_all_values()
+        # row = update.message.text
+        # ly.delete_rows(int(row)+1)
+        # multisend_message1(update.effective_user.first_name,data,int(row)+1)
 
         count = -1
 
@@ -193,7 +226,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         send_data(ly.get_all_values(), update.effective_user.id)
         
     if "duong0" in query:
-        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(5,2).value}000 VND\n', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(3,2).value}000 VND\n', update.effective_chat.id)
         send_data(duong.get_all_values(), update.effective_user.id)
 
     if "dat0" in query:
@@ -201,7 +234,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         send_data(dat.get_all_values(), update.effective_user.id)
 
     if "tuan0" in query:
-        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(3,2).value}000 VND\n', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(5,2).value}000 VND\n', update.effective_chat.id)
         send_data(tuan.get_all_values(), update.effective_user.id)
 
     if "Ly1" in query:
@@ -226,7 +259,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         sendlink('0',update.effective_chat.id)
     
     if "Duong2" in query:
-        send_telegram_msg(f"Số dư của Dương bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Dương bây giờ là: {str(chung.cell(3,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
         sendlink('0',update.effective_chat.id)
 
     if "Dat2" in query:
@@ -234,7 +267,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         sendlink('0',update.effective_chat.id)
 
     if "Tuan2" in query:
-        send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(3,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
         sendlink('0',update.effective_chat.id)
 
 app = ApplicationBuilder().token("5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE").build()
