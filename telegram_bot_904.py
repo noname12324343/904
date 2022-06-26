@@ -193,7 +193,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         send_data(ly.get_all_values(), update.effective_user.id)
         
     if "duong0" in query:
-        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(3,2).value}000 VND\n', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(5,2).value}000 VND\n', update.effective_chat.id)
         send_data(duong.get_all_values(), update.effective_user.id)
 
     if "dat0" in query:
@@ -201,7 +201,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         send_data(dat.get_all_values(), update.effective_user.id)
 
     if "tuan0" in query:
-        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(5,2).value}000 VND\n', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(3,2).value}000 VND\n', update.effective_chat.id)
         send_data(tuan.get_all_values(), update.effective_user.id)
 
     if "Ly1" in query:
@@ -226,7 +226,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         sendlink('0',update.effective_chat.id)
     
     if "Duong2" in query:
-        send_telegram_msg(f"Số dư của Dương bây giờ là: {str(chung.cell(3,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Dương bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
         sendlink('0',update.effective_chat.id)
 
     if "Dat2" in query:
@@ -234,7 +234,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         sendlink('0',update.effective_chat.id)
 
     if "Tuan2" in query:
-        send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(3,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
         sendlink('0',update.effective_chat.id)
 
 app = ApplicationBuilder().token("5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE").build()
