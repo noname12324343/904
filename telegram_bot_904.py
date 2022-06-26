@@ -97,7 +97,7 @@ async def deletedata(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text(f"{update.effective_user.first_name} ! Bạn không được quyền dùng bot này")
 
-#     send_data(ly.get_all_values(), update.effective_user.id)
+    # send_data(ly.get_all_values(), update.effective_user.id)
     global count
     count = -10
 
@@ -226,7 +226,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         send_data(ly.get_all_values(), update.effective_user.id)
         
     if "duong0" in query:
-        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(3,2).value}000 VND\n', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Dương bây giờ là: {chung.cell(5,2).value}000 VND\n', update.effective_chat.id)
         send_data(duong.get_all_values(), update.effective_user.id)
 
     if "dat0" in query:
@@ -234,7 +234,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         send_data(dat.get_all_values(), update.effective_user.id)
 
     if "tuan0" in query:
-        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(5,2).value}000 VND\n', update.effective_chat.id)
+        send_telegram_msg(f'Đóng góp của Tuấn bây giờ là: {chung.cell(3,2).value}000 VND\n', update.effective_chat.id)
         send_data(tuan.get_all_values(), update.effective_user.id)
 
     if "Ly1" in query:
