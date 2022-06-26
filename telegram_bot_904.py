@@ -97,7 +97,7 @@ async def deletedata(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text(f"{update.effective_user.first_name} ! Bạn không được quyền dùng bot này")
 
-    send_data(ly.get_all_values(), update.effective_user.id)
+#     send_data(ly.get_all_values(), update.effective_user.id)
     global count
     count = -10
 
