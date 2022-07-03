@@ -7,6 +7,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import *
 
+# 5522327707:AAFJjdtZeLb_hYCdyk4Rn7TjtGOv3Pm-SPA
+
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 
 creds = ServiceAccountCredentials.from_json_keyfile_name("key.json", scope)
@@ -69,7 +71,11 @@ def updaterow(sheet, item, cost, datetime, row):
 ITEM = []
 COST = []
 AllowID =[2058798859]
-count = 0
+count1 = 0
+count2 = 0
+count3 = 0
+count4 = 0
+
 
 def copiedtext(text,name, chat_id):
     chat_id = str(chat_id)
@@ -84,89 +90,133 @@ def sendlink( link_id ,  chat_id):
     print(response.text)
 
 async def deletedata(update: Update, context: CallbackContext):
-    await update.message.reply_text("Bạn muốn xóa dòng nào thế?\n\n")
+    global count1,count3,count4,count2
     id = update.effective_user.id
     if id == 2058798859:
+        await update.message.reply_text("Bạn muốn xóa dòng nào thế?\n\n")
         send_data(ly.get_all_values(), update.effective_user.id)
+        count1 = -10
     elif id == 5579622467:
+        await update.message.reply_text("Bạn muốn xóa dòng nào thế?\n\n")
         send_data(duong.get_all_values(), update.effective_user.id)
+        count2 = -10
     elif id == 5578472865:
-        dat.append_row(list, value_input_option='USER_ENTERED')
+        await update.message.reply_text("Bạn muốn xóa dòng nào thế?\n\n")
+        send_data(dat.get_all_values(), update.effective_user.id)
+        count3 = -10
     elif id == 5448207142:
+        await update.message.reply_text("Bạn muốn xóa dòng nào thế?\n\n")
         send_data(tuan.get_all_values(), update.effective_user.id)
+        count4 = -10
     else:
         await update.message.reply_text(f"{update.effective_user.first_name} ! Bạn không được quyền dùng bot này")
 
-    # send_data(ly.get_all_values(), update.effective_user.id)
-    global count
-    count = -10
 
 async def handlmsg(update: Update, context: CallbackContext):
-    global items,costs,count
-    list= []
+    global items1,costs1,count1,items2,costs2,count2,items3,costs3,count3,items4,costs4,count4
+    list1= []
+    list2= []
+    list3= []
+    list4= []
+    id = update.effective_user.id
+    if id == 2058798859:
+        if count1 == 0:
+            await update.message.reply_text("Bạn đã mua gì thế ?")
 
-    if count == 0:
-        await update.message.reply_text("Bạn đã mua gì thế ?")
+        if count1 == 1:
+            items1 = update.message.text
+            await update.message.reply_text(f"Bạn đã mua {items1} với giá bao nhiêu thế (Đơn vị kVND)?")
 
-    if count == 1:
-        items = update.message.text
-        await update.message.reply_text(f"Bạn đã mua {items} với giá bao nhiêu thế (Đơn vị kVND)?")
+        if count1 == 2:
+            costs1 = update.message.text
+            hanoi_tz = timezone(timedelta(hours=7))
+            list1= [datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y"), items1, costs1]
+            ly.append_row(list1, value_input_option='USER_ENTERED')
+            multisend_message('Lý',items1,costs1)
+            count1 = -1
 
-    if count == 2:
-        costs = update.message.text
-        hanoi_tz = timezone(timedelta(hours=7))
-        list= [datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y"), items, costs]
-        id = update.effective_user.id
-        if id == 2058798859:
-            ly.append_row(list, value_input_option='USER_ENTERED')
-            multisend_message(update.effective_user.first_name,items,costs)
-        elif id == 5579622467:
-            duong.append_row(list, value_input_option='USER_ENTERED')
-            multisend_message(update.effective_user.first_name,items,costs)
-        elif id == 5578472865:
-            dat.append_row(list, value_input_option='USER_ENTERED')
-            multisend_message(update.effective_user.first_name,items,costs)
-        elif id == 5448207142:
-            tuan.append_row(list, value_input_option='USER_ENTERED')
-            multisend_message(update.effective_user.first_name,items,costs)
-        else:
-            await update.message.reply_text(f"{update.effective_user.first_name} ! Bạn không được quyền dùng bot này")
-        # nên nhày đoạn append vô đây
-        
-        count = -1
+        if count1 == -10:
+            data1 = ly.get_all_values()
+            row1 = update.message.text
+            ly.delete_rows(int(row1)+1)
+            multisend_message1('Lý',data1,int(row1)+1)
+            count1 = -1
 
-    if count == -10:
-        id = update.effective_user.id
-        if id == 2058798859:
-            data = ly.get_all_values()
-            row = update.message.text
-            ly.delete_rows(int(row)+1)
-            multisend_message1(update.effective_user.first_name,data,int(row)+1)
-        elif id == 5579622467:
-            data = duong.get_all_values()
-            row = update.message.text
-            duong.delete_rows(int(row)+1)
-            multisend_message1(update.effective_user.first_name,data,int(row)+1)
-        elif id == 5578472865:
-            data = dat.get_all_values()
-            row = update.message.text
-            dat.delete_rows(int(row)+1)
-            multisend_message1(update.effective_user.first_name,data,int(row)+1)
-        elif id == 5448207142:
-            data = tuan.get_all_values()
-            row = update.message.text
-            tuan.delete_rows(int(row)+1)
-            multisend_message1(update.effective_user.first_name,data,int(row)+1)
-        else:
-            await update.message.reply_text(f"{update.effective_user.first_name} ! Bạn không được quyền dùng bot này")
-        # data = ly.get_all_values()
-        # row = update.message.text
-        # ly.delete_rows(int(row)+1)
-        # multisend_message1(update.effective_user.first_name,data,int(row)+1)
+        count1 += 1
+    elif id == 5579622467:
+        if count2 == 0:
+            await update.message.reply_text("Bạn đã mua gì thế ?")
 
-        count = -1
+        if count2 == 1:
+            items2 = update.message.text
+            await update.message.reply_text(f"Bạn đã mua {items2} với giá bao nhiêu thế (Đơn vị kVND)?")
 
-    count += 1
+        if count2 == 2:
+            costs2 = update.message.text
+            hanoi_tz = timezone(timedelta(hours=7))
+            list2= [datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y"), items2, costs2]
+            duong.append_row(list2, value_input_option='USER_ENTERED')
+            multisend_message('Dương',items2,costs2)
+            count2 = -1
+
+        if count2 == -10:
+            data2 = duong.get_all_values()
+            row2 = update.message.text
+            duong.delete_rows(int(row2)+1)
+            multisend_message1('Dương',data2,int(row2)+1)
+            count2 = -1
+
+        count2 += 1
+    elif id == 5578472865:
+        if count3 == 0:
+            await update.message.reply_text("Bạn đã mua gì thế ?")
+
+        if count3 == 1:
+            items3 = update.message.text
+            await update.message.reply_text(f"Bạn đã mua {items3} với giá bao nhiêu thế (Đơn vị kVND)?")
+
+        if count3 == 2:
+            costs3 = update.message.text
+            hanoi_tz = timezone(timedelta(hours=7))
+            list3= [datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y"), items3, costs3]
+            dat.append_row(list3, value_input_option='USER_ENTERED')
+            multisend_message('Đạt',items3,costs3)
+            count3 = -1
+
+        if count3 == -10:
+            data3 = dat.get_all_values()
+            row3 = update.message.text
+            dat.delete_rows(int(row3)+1)
+            multisend_message1('Đạt',data3,int(row3)+1)
+            count3 = -1
+
+        count3 += 1
+    elif id == 5448207142:
+        if count4 == 0:
+            await update.message.reply_text("Bạn đã mua gì thế ?")
+
+        if count4 == 1:
+            items4 = update.message.text
+            await update.message.reply_text(f"Bạn đã mua {items4} với giá bao nhiêu thế (Đơn vị kVND)?")
+
+        if count4 == 2:
+            costs4 = update.message.text
+            hanoi_tz = timezone(timedelta(hours=7))
+            list4= [datetime.now(hanoi_tz).strftime("%H:%M:%S %d/%m/%Y"), items4, costs4]
+            tuan.append_row(list4, value_input_option='USER_ENTERED')
+            multisend_message('Tuấn',items4,costs4)
+            count4 = -1
+
+        if count1 == -10:
+            data4 = tuan.get_all_values()
+            row4 = update.message.text
+            tuan.delete_rows(int(row4)+1)
+            multisend_message1('Tuấn',data4,int(row4)+1)
+            count4 = -1
+
+        count4 += 1
+    else:
+        await update.message.reply_text(f"{update.effective_user.first_name} ! Bạn không được quyền dùng bot này")
 
 
 
