@@ -229,17 +229,11 @@ async def startCommand(update: Update, context: CallbackContext):
 async def help(update: Update, context: CallbackContext):
     await update.message.reply_text("""
         /distribution --> Xem đóng góp từng cá nhân
-
 /ATM --> Xem số tài khoản
-
 /balance --> Xem số dư từng cá nhân
-
 /sum --> Xem tổng chi tiêu cả phòng
-
 /average --> Xem trung bình từng thành viên
-
 /deletedata --> Xóa dữ liệu
-
 /cancel --> Đưa bot về trạng thái mặc định
     """)
 
@@ -247,9 +241,17 @@ async def sum(update: Update, context: CallbackContext):
     await update.message.reply_text(f'Tổng chi tiêu cả phòng tính tới bây giờ là : {chung.cell(6,2).value}000 VND')
 
 async def cancel(update: Update, context: CallbackContext):
-    global count
+    global count1, count2, count3, count4
     await update.message.reply_text(f'Đã đưa bot về trạng thái mặc định\nNhấn bất kì để khai báo')
-    count = 0
+    id = update.effective_user.id
+    if id == 2058798859:
+        count1= 0
+    elif id == 5579622467:
+        count2 = 0
+    elif id == 5578472865:
+        count3 = 0
+    elif id == 5448207142:
+        count4 = 0
 
 async def average(update: Update, context: CallbackContext):
     await update.message.reply_text(f'Trung bình từng thành viên là : {chung.cell(7,2).value}000 VND')
