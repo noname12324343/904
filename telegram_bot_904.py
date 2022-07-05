@@ -229,11 +229,17 @@ async def startCommand(update: Update, context: CallbackContext):
 async def help(update: Update, context: CallbackContext):
     await update.message.reply_text("""
         /distribution --> Xem đóng góp từng cá nhân
+
 /ATM --> Xem số tài khoản
+
 /balance --> Xem số dư từng cá nhân
+
 /sum --> Xem tổng chi tiêu cả phòng
+
 /average --> Xem trung bình từng thành viên
+
 /deletedata --> Xóa dữ liệu
+
 /cancel --> Đưa bot về trạng thái mặc định
     """)
 
@@ -241,16 +247,19 @@ async def sum(update: Update, context: CallbackContext):
     await update.message.reply_text(f'Tổng chi tiêu cả phòng tính tới bây giờ là : {chung.cell(6,2).value}000 VND')
 
 async def cancel(update: Update, context: CallbackContext):
-    global count1, count2, count3, count4
-    await update.message.reply_text(f'Đã đưa bot về trạng thái mặc định\nNhấn bất kì để khai báo')
+    global count1,count3,count4,count2
     id = update.effective_user.id
     if id == 2058798859:
-        count1= 0
+        await update.message.reply_text(f'Đã đưa bot về trạng thái mặc định\nNhấn bất kì để khai báo')
+        count1 = 0
     elif id == 5579622467:
+        await update.message.reply_text(f'Đã đưa bot về trạng thái mặc định\nNhấn bất kì để khai báo')
         count2 = 0
     elif id == 5578472865:
+        await update.message.reply_text(f'Đã đưa bot về trạng thái mặc định\nNhấn bất kì để khai báo')
         count3 = 0
     elif id == 5448207142:
+        await update.message.reply_text(f'Đã đưa bot về trạng thái mặc định\nNhấn bất kì để khai báo')
         count4 = 0
 
 async def average(update: Update, context: CallbackContext):
@@ -313,7 +322,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         sendlink('0',update.effective_chat.id)
     
     if "Duong2" in query:
-        send_telegram_msg(f"Số dư của Dương bây giờ là: {str(chung.cell(3,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Dương bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
         sendlink('0',update.effective_chat.id)
 
     if "Dat2" in query:
@@ -321,7 +330,7 @@ async def queryHandler(update: Update, context: CallbackContext):
         sendlink('0',update.effective_chat.id)
 
     if "Tuan2" in query:
-        send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(5,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
+        send_telegram_msg(f"Số dư của Tuấn bây giờ là: {str(chung.cell(3,3).value).replace('-',' âm ')}000 VND\nNhấn vào để xem chi tiết", update.effective_chat.id)
         sendlink('0',update.effective_chat.id)
 
 app = ApplicationBuilder().token("5161246524:AAH1JXbk8unxiaBR5CH5QEB6DVfDfvrUJlE").build()
